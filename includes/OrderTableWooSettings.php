@@ -86,16 +86,17 @@ class OrderTableWooSettings {
 				foreach ( $added_status as $status ) {
 					$encode_status = $status->option_value;
 					$status_array = ( json_decode( $encode_status ) );
+                    // dd($status);
 					?>
                 <tr valign="top">
                     <td>
-                        <strong><a href="#"><?php echo esc_html__( $status_array->uomwoo_status_label, 'ultimate-order-manager' ); ?></a></strong>
+                        <strong><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status_id=' . $status_array->uomwoo_status_id ) ); ?>"><?php echo esc_html__( $status_array->uomwoo_status_label, 'ultimate-order-manager' ); ?></a></strong>
                         <div class="row-actions">
                             <span class="edit">
-                                <a href="http://order-manager-ai.test/wp-admin/post.php?post=12&amp;action=edit" aria-label="Edit “Officiis reiciendis”">Edit</a> | 
+                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status_id=' . $status_array->uomwoo_status_id ) ); ?>" aria-label="Edit status">Edit</a> | 
                             </span>
                             <span class="trash">
-                                <a href="http://order-manager-ai.test/wp-admin/post.php?post=12&amp;action=trash&amp;_wpnonce=17d89edb86" class="submitdelete" aria-label="Move “Officiis reiciendis” to the Trash">Trash</a>
+                                <a href="#" class="submitdelete" aria-label="Move “Officiis reiciendis” to the Trash">Trash</a>
                             </span>
                         </div>
                     </td>
@@ -125,7 +126,7 @@ class OrderTableWooSettings {
                 'css'      => 'width: 250px;',
                 'autoload' => false,
                 'desc_tip' => true,
-                // 'custom_attributes' => array( 'required' => 'required' )
+                'custom_attributes' => array( 'required' => 'required' )
             ),
             'uomwoo_status_slug' => array(
                 'title'    => __( 'Status Slug (required)', 'ultimate-order-manager' ),
@@ -141,6 +142,61 @@ class OrderTableWooSettings {
                 'desc'     => __( 'Pick your status color', 'ultimate-order-manager' ),
                 'id'       => 'uomwoo_status_color',
                 'type'     => 'text',
+                'css'      => 'width: 250px;',
+                'autoload' => false,
+                'desc_tip' => true,
+                'default'  => '#777777',
+                'class' => 'colorpick',
+                'custom_attributes' => array( 'required' => 'required' ),
+            ),
+            'section_end' => array(
+                'type' => 'sectionend',
+                'id' => 'uomwoo_status_settings_section_end',
+            ),
+        );
+        return $settings;
+    }
+
+    public function uomwoo_edit_status_form_fields( $status_id ) {
+        $status = OrderStatusManager::uomwoo_get_custom_status_by_id( $status_id );
+        $encode_status = $status->option_value;
+        $status_array = ( json_decode( $encode_status ) );
+        
+        $settings = array(
+            'section_title' => array(
+                'name'     => __( 'Status Settings', 'ultimate-order-manager' ),
+                'type'     => 'title',
+                'desc'     => __( 'Add or update custom status for you store.', 'ultimate-order-manager' ),
+                'id'       => 'uomwoo_status_settings_section_title',
+                'class' => 'uomwoo-section-title',
+            ),
+            'uomwoo_status_label' => array(
+                'title'    => __( 'Status Label (required)', 'ultimate-order-manager' ),
+                'desc'     => __( 'Enter new status name', 'ultimate-order-manager' ),
+                'id'       => 'uomwoo_status_label',
+                'type'     => 'text',
+                'default'     => sanitize_text_field( $status_array->uomwoo_status_label ),
+                'css'      => 'width: 250px;',
+                'autoload' => false,
+                'desc_tip' => true,
+                'custom_attributes' => array( 'required' => 'required' )
+            ),
+            'uomwoo_status_slug' => array(
+                'title'    => __( 'Status Slug (required)', 'ultimate-order-manager' ),
+                'desc'     => __( 'Status slug without wc- prefix', 'ultimate-order-manager' ),
+                'id'       => 'uomwoo_status_slug',
+                'type'     => 'text',
+                'default'     => sanitize_text_field( $status_array->uomwoo_status_slug ),
+                'css'      => 'width: 250px;',
+                'autoload' => false,
+                'custom_attributes' => array( 'required' => 'required' ),
+            ),
+            'uomwoo_status_color' => array(
+                'title'    => __( 'Status Color (required)', 'ultimate-order-manager' ),
+                'desc'     => __( 'Pick your status color', 'ultimate-order-manager' ),
+                'id'       => 'uomwoo_status_color',
+                'type'     => 'text',
+                'default'     => sanitize_text_field( $status_array->uomwoo_status_color ),
                 'css'      => 'width: 250px;',
                 'autoload' => false,
                 'desc_tip' => true,
@@ -251,6 +307,8 @@ class OrderTableWooSettings {
 		if ( 'status_manager' === $current_section ) {
             if ( isset( $_REQUEST['status'] ) && $_REQUEST['status'] === 'new' ) {
                 return $this->uomwoo_add_status_form_fields();
+            }else if ( isset( $_REQUEST['status_id'] ) ) {
+                return $this->uomwoo_edit_status_form_fields( sanitize_text_field( $_REQUEST['status_id'] ) );
             } else {
                 $hide_save_button = true;
                 $this->uomwoo_status_list();
@@ -277,15 +335,28 @@ class OrderTableWooSettings {
      */
     public function uomwoo_save_settings() {
         global $current_section;
-        if ( 'status_manager' === $current_section ) {
+        if ( 'status_manager' === $current_section && isset( $_REQUEST['status'] ) && 'new' === $_REQUEST['status'] ) {
             if ( isset( $_REQUEST['uomwoo_status_label'], $_REQUEST['uomwoo_status_slug'], $_REQUEST['uomwoo_status_color'] ) && ! empty( $_REQUEST['uomwoo_status_label'] ) && ! empty( $_REQUEST['uomwoo_status_slug'] ) && ! empty( $_REQUEST['uomwoo_status_color'] ) ) {
                 $added_status = OrderStatusManager::uomwoo_get_custom_status();
                 $status_counter = count( $added_status ) > 0 ? count( $added_status ) + 1 : 1;
                 $new_status = [];
+                $new_status['uomwoo_status_id'] = sanitize_text_field( $status_counter );
                 $new_status['uomwoo_status_label'] = sanitize_text_field( $_REQUEST['uomwoo_status_label'] );
                 $new_status['uomwoo_status_slug'] = sanitize_text_field( $_REQUEST['uomwoo_status_slug'] );
                 $new_status['uomwoo_status_color'] = sanitize_text_field( $_REQUEST['uomwoo_status_color'] );
                 update_option( 'uomwoo_custom_status_' . $status_counter, json_encode( $new_status ) );
+            } else {
+                // Redirect to status add page to avoid settings save actions.
+                wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager' ) );
+                exit();
+            }
+        }else if ( 'status_manager' === $current_section && isset( $_REQUEST['status_id'] ) ) {
+            if ( isset( $_REQUEST['uomwoo_status_label'], $_REQUEST['uomwoo_status_slug'], $_REQUEST['uomwoo_status_color'] ) && ! empty( $_REQUEST['uomwoo_status_label'] ) && ! empty( $_REQUEST['uomwoo_status_slug'] ) && ! empty( $_REQUEST['uomwoo_status_color'] ) ) {
+                $new_status = [];
+                $new_status['uomwoo_status_label'] = sanitize_text_field( $_REQUEST['uomwoo_status_label'] );
+                $new_status['uomwoo_status_slug'] = sanitize_text_field( $_REQUEST['uomwoo_status_slug'] );
+                $new_status['uomwoo_status_color'] = sanitize_text_field( $_REQUEST['uomwoo_status_color'] );
+                update_option( 'uomwoo_custom_status_' . sanitize_text_field( $_REQUEST['status_id'] ), json_encode( $new_status ) );
             } else {
                 // Redirect to status add page to avoid settings save actions.
                 wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager' ) );
@@ -309,7 +380,7 @@ class OrderTableWooSettings {
      * @return void
      */
     public function uomwoo_change_status_save_settings_text( $translated_text, $text, $domain ) {
-        if ( ( $domain === 'woocommerce' ) && isset( $_GET['section'] ) && ( $_GET['section'] === 'status_manager' ) ) {
+        if ( ( $domain === 'woocommerce' ) && isset( $_REQUEST['section'] ) && ( $_REQUEST['section'] === 'status_manager' ) ) {
             switch ( $translated_text ) {
                 case 'Your settings have been saved.':
                     $translated_text = __( 'Status successfully added.', 'ultimate-order-manager' );

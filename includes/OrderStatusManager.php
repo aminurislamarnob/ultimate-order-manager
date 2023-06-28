@@ -14,9 +14,25 @@ class OrderStatusManager {
         add_action( 'admin_notices', array( $this, 'uomwoo_custom_order_status_admin_notices' ) );
     }
 
+    /**
+     * Get custom status list
+     *
+     * @return object|array
+     */
     public static function uomwoo_get_custom_status() {
         global $wpdb;
         return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}options WHERE option_name LIKE 'uomwoo_custom_status_%'" ) );
+    }
+
+    /**
+     * Get custom status by option id
+     *
+     * @param number $option_id
+     * @return object|array
+     */
+    public static function uomwoo_get_custom_status_by_id( $status_id ) {
+        global $wpdb;
+        return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}options WHERE option_name LIKE 'uomwoo_custom_status_{$status_id}'" ) );
     }
 
     /**
