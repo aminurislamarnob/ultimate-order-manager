@@ -1,13 +1,13 @@
 <?php
 
-namespace AiArnob\UltimateOrderManagerForWoocommerce;
+namespace AiArnob\UltimateOrderManager;
 
 /**
- * UltimateOrderManagerForWoocommerce class
+ * UltimateOrderManager class
  *
- * @class UltimateOrderManagerForWoocommerce The class that holds the entire UltimateOrderManagerForWoocommerce plugin
+ * @class UltimateOrderManager The class that holds the entire UltimateOrderManager plugin
  */
-final class UltimateOrderManagerForWoocommerce {
+final class UltimateOrderManager {
 
     /**
      * Plugin version
@@ -19,7 +19,7 @@ final class UltimateOrderManagerForWoocommerce {
     /**
      * Instance of self
      *
-     * @var UltimateOrderManagerForWoocommerce
+     * @var UltimateOrderManager
      */
     private static $instance = null;
 
@@ -33,7 +33,7 @@ final class UltimateOrderManagerForWoocommerce {
     private $container = [];
 
     /**
-     * Constructor for the UltimateOrderManagerForWoocommerce class
+     * Constructor for the UltimateOrderManager class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -41,17 +41,17 @@ final class UltimateOrderManagerForWoocommerce {
     private function __construct() {
         $this->define_constants();
 
-        register_activation_hook( ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE, [ $this, 'activate' ] );
-        register_deactivation_hook( ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE, [ $this, 'deactivate' ] );
+        register_activation_hook( UWOM_ORDER_MANAGER_FILE, [ $this, 'activate' ] );
+        register_deactivation_hook( UWOM_ORDER_MANAGER_FILE, [ $this, 'deactivate' ] );
 
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
         add_action( 'woocommerce_flush_rewrite_rules', [ $this, 'flush_rewrite_rules' ] );
     }
 
     /**
-     * Initializes the UltimateOrderManagerForWoocommerce() class
+     * Initializes the UltimateOrderManager() class
      *
-     * Checks for an existing UltimateOrderManagerForWoocommerce instance
+     * Checks for an existing UltimateOrderManager instance
      * and if it doesn't find one, creates it.
      */
     public static function init() {
@@ -112,16 +112,16 @@ final class UltimateOrderManagerForWoocommerce {
      * @return void
      */
     public function define_constants() {
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_PLUGIN_VERSION', $this->version );
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_DIR', dirname( ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE ) );
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_INC_DIR', ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_DIR . '/includes' );
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_TEMPLATE_DIR', ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_DIR . '/templates' );
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_PLUGIN_ASSET', plugins_url( 'assets', ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE ) );
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_PLUGIN', plugin_basename( ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE ) );
+        $this->define( 'UWOM_ORDER_MANAGER_PLUGIN_VERSION', $this->version );
+        $this->define( 'UWOM_ORDER_MANAGER_DIR', dirname( UWOM_ORDER_MANAGER_FILE ) );
+        $this->define( 'UWOM_ORDER_MANAGER_INC_DIR', UWOM_ORDER_MANAGER_DIR . '/includes' );
+        $this->define( 'UWOM_ORDER_MANAGER_TEMPLATE_DIR', UWOM_ORDER_MANAGER_DIR . '/templates' );
+        $this->define( 'UWOM_ORDER_MANAGER_PLUGIN_ASSET', plugins_url( 'assets', UWOM_ORDER_MANAGER_FILE ) );
+        $this->define( 'UWOM_ORDER_MANAGER_PLUGIN', plugin_basename( UWOM_ORDER_MANAGER_FILE ) );
 
         // give a way to turn off loading styles and scripts from parent theme
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_LOAD_STYLE', true );
-        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_LOAD_SCRIPTS', true );
+        $this->define( 'UWOM_ORDER_MANAGER_LOAD_STYLE', true );
+        $this->define( 'UWOM_ORDER_MANAGER_LOAD_SCRIPTS', true );
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace AiArnob\UltimateOrderManagerForWoocommerce;
+namespace AiArnob\UltimateOrderManager;
 
 use WC_Admin_Settings;
 
@@ -32,7 +32,7 @@ class OrderTableWooSettings {
      * @return void
      */
     public function uomwoo_general_settings_tab( $tabs ) {
-        $tabs[ $this->tab_id ] = __( 'Ultimate Order Manager', 'ultimate-order-manager-for-woocommerce' );
+        $tabs[ $this->tab_id ] = __( 'Ultimate Order Manager', 'ultimate-order-manager' );
         return $tabs;
     }
 
@@ -43,8 +43,8 @@ class OrderTableWooSettings {
 	 */
 	public function get_sections() {
 		$sections = array(
-			'' => __( 'General Settings', 'ultimate-order-manager-for-woocommerce' ),
-			'status_manager' => __( 'Status Manager', 'ultimate-order-manager-for-woocommerce' ),
+			'' => __( 'General Settings', 'ultimate-order-manager' ),
+			'status_manager' => __( 'Status Manager', 'ultimate-order-manager' ),
 		);
 
 		return $sections;
@@ -89,7 +89,7 @@ class OrderTableWooSettings {
 					?>
                 <tr valign="top">
                     <td>
-                        <strong><a href="#"><?php echo esc_html__( $status_array->uomwoo_status_label, 'ultimate-order-manager-for-woocommerce' ); ?></a></strong>
+                        <strong><a href="#"><?php echo esc_html__( $status_array->uomwoo_status_label, 'ultimate-order-manager' ); ?></a></strong>
                         <div class="row-actions">
                             <span class="edit">
                                 <a href="http://order-manager-ai.test/wp-admin/post.php?post=12&amp;action=edit" aria-label="Edit “Officiis reiciendis”">Edit</a> | 
@@ -111,15 +111,15 @@ class OrderTableWooSettings {
     public function uomwoo_add_status_form_fields() {
         $settings = array(
             'section_title' => array(
-                'name'     => __( 'Status Settings', 'ultimate-order-manager-for-woocommerce' ),
+                'name'     => __( 'Status Settings', 'ultimate-order-manager' ),
                 'type'     => 'title',
-                'desc'     => __( 'Add or update custom status for you store.', 'ultimate-order-manager-for-woocommerce' ),
+                'desc'     => __( 'Add or update custom status for you store.', 'ultimate-order-manager' ),
                 'id'       => 'uomwoo_status_settings_section_title',
                 'class' => 'uomwoo-section-title',
             ),
             'uomwoo_status_label' => array(
-                'title'    => __( 'Status Label (required)', 'ultimate-order-manager-for-woocommerce' ),
-                'desc'     => __( 'Enter new status name', 'ultimate-order-manager-for-woocommerce' ),
+                'title'    => __( 'Status Label (required)', 'ultimate-order-manager' ),
+                'desc'     => __( 'Enter new status name', 'ultimate-order-manager' ),
                 'id'       => 'uomwoo_status_label',
                 'type'     => 'text',
                 'css'      => 'width: 250px;',
@@ -128,8 +128,8 @@ class OrderTableWooSettings {
                 // 'custom_attributes' => array( 'required' => 'required' )
             ),
             'uomwoo_status_slug' => array(
-                'title'    => __( 'Status Slug (required)', 'ultimate-order-manager-for-woocommerce' ),
-                'desc'     => __( 'Status slug without wc- prefix', 'ultimate-order-manager-for-woocommerce' ),
+                'title'    => __( 'Status Slug (required)', 'ultimate-order-manager' ),
+                'desc'     => __( 'Status slug without wc- prefix', 'ultimate-order-manager' ),
                 'id'       => 'uomwoo_status_slug',
                 'type'     => 'text',
                 'css'      => 'width: 250px;',
@@ -137,8 +137,8 @@ class OrderTableWooSettings {
                 'custom_attributes' => array( 'required' => 'required' ),
             ),
             'uomwoo_status_color' => array(
-                'title'    => __( 'Status Color (required)', 'ultimate-order-manager-for-woocommerce' ),
-                'desc'     => __( 'Pick your status color', 'ultimate-order-manager-for-woocommerce' ),
+                'title'    => __( 'Status Color (required)', 'ultimate-order-manager' ),
+                'desc'     => __( 'Pick your status color', 'ultimate-order-manager' ),
                 'id'       => 'uomwoo_status_color',
                 'type'     => 'text',
                 'css'      => 'width: 250px;',
@@ -161,77 +161,77 @@ class OrderTableWooSettings {
 
             $settings = array(
                 'section_title' => array(
-                    'name'     => __( 'Order Table General Settings', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Order Table General Settings', 'ultimate-order-manager' ),
                     'type'     => 'title',
-                    'desc'     => __( 'Configure the settings below to show or hide WooCommerce order columns.', 'ultimate-order-manager-for-woocommerce' ),
+                    'desc'     => __( 'Configure the settings below to show or hide WooCommerce order columns.', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_general_settings_section_title',
                     'class' => 'uomwoo-section-title',
                 ),
                 'uomwoo_order_summary' => array(
-                    'name'     => __( 'Show Order Summary', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Order Summary', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_order_summary',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_order_shipping_cost' => array(
-                    'name'     => __( 'Show Order Shipping Cost', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Order Shipping Cost', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_order_shipping_cost',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_order_note' => array(
-                    'name'     => __( 'Show Customer Note', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Customer Note', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_order_note',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_order_pm' => array(
-                    'name'     => __( 'Show Payment Method', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Payment Method', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_order_pm',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_order_coupon' => array(
-                    'name'     => __( 'Show Applied Coupon', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Applied Coupon', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_order_coupon',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_compact_mode' => array(
-                    'name'     => __( 'Compact Order Table', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Compact Order Table', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_compact_mode',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_customer_ip' => array(
-                    'name'     => __( 'Show Customer IP', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Customer IP', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_customer_ip',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_customer_os_browser' => array(
-                    'name'     => __( 'Show Customer OS & Browser', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Customer OS & Browser', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_customer_os_browser',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_customer_phone' => array(
-                    'name'     => __( 'Show Customer Phone', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Customer Phone', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_customer_phone',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
                     'desc' => $switch_markup,
                 ),
                 'uomwoo_customer_email' => array(
-                    'name'     => __( 'Show Customer Email', 'ultimate-order-manager-for-woocommerce' ),
+                    'name'     => __( 'Show Customer Email', 'ultimate-order-manager' ),
                     'id'       => 'uomwoo_customer_email',
                     'type'     => 'checkbox',
                     'class' => 'uomwoo-checkbox',
@@ -312,7 +312,7 @@ class OrderTableWooSettings {
         if ( ( $domain === 'woocommerce' ) && isset( $_GET['section'] ) && ( $_GET['section'] === 'status_manager' ) ) {
             switch ( $translated_text ) {
                 case 'Your settings have been saved.':
-                    $translated_text = __( 'Status successfully added.', 'ultimate-order-manager-for-woocommerce' );
+                    $translated_text = __( 'Status successfully added.', 'ultimate-order-manager' );
                     break;
             }
         }

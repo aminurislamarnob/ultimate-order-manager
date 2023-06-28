@@ -1,5 +1,5 @@
 <?php
-namespace AiArnob\UltimateOrderManagerForWoocommerce;
+namespace AiArnob\UltimateOrderManager;
 
 /**
  * Enqueue public/frontend styles and scripts

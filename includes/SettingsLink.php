@@ -1,11 +1,11 @@
 <?php
 
-namespace AiArnob\UltimateOrderManagerForWoocommerce;
+namespace AiArnob\UltimateOrderManager;
 
 class SettingsLink {
     protected $plugin;
     public function __construct() {
-        $this->plugin = ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_PLUGIN;
+        $this->plugin = UWOM_ORDER_MANAGER_PLUGIN;
 		add_filter( "plugin_action_links_$this->plugin", array( $this, 'settings_link' ) );
 	}
 
