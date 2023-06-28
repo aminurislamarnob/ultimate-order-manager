@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "907c011e5fec3920f670c130dd32ccc5",
+    "content-hash": "1d676b47b1f52709601633a66e1c7983",
     "packages": [
         {
             "name": "foroco/php-browser-detection",
@@ -2304,6 +2304,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "foroco/php-browser-detection": 20,
         "wp-coding-standards/wpcs": 20,
         "tareq1988/wp-php-cs-fixer": 20,
         "phpcompatibility/phpcompatibility-wp": 20,

@@ -1,6 +1,6 @@
 <?php
 
-namespace WeLabs\UltimateOrderManagerForWoocommerce;
+namespace AiArnob\UltimateOrderManagerForWoocommerce;
 
 class Assets {
     /**

@@ -11,7 +11,7 @@
  * Domain Path: /languages/
  * License: GPLv2 or later
  */
-use WeLabs\UltimateOrderManagerForWoocommerce\UltimateOrderManagerForWoocommerce;
+use AiArnob\UltimateOrderManagerForWoocommerce\UltimateOrderManagerForWoocommerce;
 
 // don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,11 +27,11 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * Load Ultimate_Order_Manager_For_Woocommerce Plugin when all plugins loaded
  *
- * @return \WeLabs\UltimateOrderManagerForWoocommerce\UltimateOrderManagerForWoocommerce;
+ * @return \AiArnob\UltimateOrderManagerForWoocommerce\UltimateOrderManagerForWoocommerce;
  */
-function welabs_ultimate_order_manager_for_woocommerce() {
+function aiarnob_ultimate_order_manager_for_woocommerce() {
     return UltimateOrderManagerForWoocommerce::init();
 }
 
 // Lets Go....
-welabs_ultimate_order_manager_for_woocommerce();
+aiarnob_ultimate_order_manager_for_woocommerce();

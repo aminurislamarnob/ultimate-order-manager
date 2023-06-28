@@ -1,6 +1,6 @@
 <?php
 
-namespace WeLabs\UltimateOrderManagerForWoocommerce;
+namespace AiArnob\UltimateOrderManagerForWoocommerce;
 
 class OrderTableManager {
     public function __construct() {
@@ -74,7 +74,6 @@ class OrderTableManager {
         $order = wc_get_order( $post->ID );
         $browser = new \foroco\BrowserDetection();
 
-
         //Show Order Summary [Order Items]
         if ( 'uomwoo_order_items' === $column ) {
             foreach ( $order->get_items() as $item_id => $item ) {
@@ -99,16 +98,16 @@ class OrderTableManager {
 
         //Show Order Payment Method
         if ( 'uomwoo_order_coupon' === $column ) {
-            if(count($order->get_coupon_codes()) > 0){
-                foreach( $order->get_coupon_codes() as $key => $coupon_code ){
+            if ( count( $order->get_coupon_codes() ) > 0 ) {
+                foreach ( $order->get_coupon_codes() as $key => $coupon_code ) {
                     // Get the WC_Coupon object
-                    $coupon = new \WC_Coupon($coupon_code);
+                    $coupon = new \WC_Coupon( $coupon_code );
                     $discount_type = $coupon->get_discount_type(); // Get coupon discount type
                     $coupon_amount = $coupon->get_amount(); // Get coupon amount
-                    echo sprintf(__("Code: %s, Type: %s, Amount: %s", 'ultimate-order-manager-for-woocommerce'), $coupon_code, $discount_type, $coupon_amount);
-                    
-                    if( (count($order->get_coupon_codes()) - 1) !== $key ){
-                        echo wp_kses_post('<hr/>');
+                    echo sprintf( __( 'Code: %1$s, Type: %2$s, Amount: %3$s', 'ultimate-order-manager-for-woocommerce' ), $coupon_code, $discount_type, $coupon_amount );
+
+                    if ( ( count( $order->get_coupon_codes() ) - 1 ) !== $key ) {
+                        echo wp_kses_post( '<hr/>' );
                     }
                 }
             }
@@ -121,10 +120,10 @@ class OrderTableManager {
 
         //Show Customer Browser & OS
         if ( 'uomwoo_customer_user_agent' === $column ) {
-            $os_info =  $browser->getOS($order->get_customer_user_agent());
-            $browser_info = $browser->getBrowser($order->get_customer_user_agent());
-            $device_type = $browser->getDevice($order->get_customer_user_agent());
-            echo sprintf(__("Device: %s. %s OS: %s. %s Browser: %s %s.", 'ultimate-order-manager-for-woocommerce'), ucfirst($device_type['device_type']), '<br>', $os_info['os_name'], '<br>', $browser_info['browser_name'], $browser_info['browser_version']);
+            $os_info = $browser->getOS( $order->get_customer_user_agent() );
+            $browser_info = $browser->getBrowser( $order->get_customer_user_agent() );
+            $device_type = $browser->getDevice( $order->get_customer_user_agent() );
+            echo sprintf( __( 'Device: %1$s. %2$s OS: %3$s. %4$s Browser: %5$s %6$s.', 'ultimate-order-manager-for-woocommerce' ), ucfirst( $device_type['device_type'] ), '<br>', $os_info['os_name'], '<br>', $browser_info['browser_name'], $browser_info['browser_version'] );
         }
 
         //Show Customer Phone
