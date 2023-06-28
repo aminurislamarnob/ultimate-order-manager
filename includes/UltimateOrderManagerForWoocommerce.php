@@ -117,6 +117,7 @@ final class UltimateOrderManagerForWoocommerce {
         $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_INC_DIR', ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_DIR . '/includes' );
         $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_TEMPLATE_DIR', ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_DIR . '/templates' );
         $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_PLUGIN_ASSET', plugins_url( 'assets', ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE ) );
+        $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_PLUGIN', plugin_basename( ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_FILE ) );
 
         // give a way to turn off loading styles and scripts from parent theme
         $this->define( 'ULTIMATE_ORDER_MANAGER_FOR_WOOCOMMERCE_LOAD_STYLE', true );
@@ -176,6 +177,10 @@ final class UltimateOrderManagerForWoocommerce {
      */
     public function init_classes() {
         $this->container['scripts'] = new Assets();
+        new SettingsLink();
+        new OrderTableManager();
+        new OrderStatusManager();
+        new OrderTableWooSettings();
     }
 
     /**

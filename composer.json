@@ -40,5 +40,8 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "require": {
+        "foroco/php-browser-detection": "dev-master"
     }
 }

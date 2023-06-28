@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c18bf3b4dbd521b572d36fa11865b537",
-    "packages": [],
+    "content-hash": "907c011e5fec3920f670c130dd32ccc5",
+    "packages": [
+        {
+            "name": "foroco/php-browser-detection",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/foroco/php-browser-detection.git",
+                "reference": "80d7bae823c150da82496b1bc94248febdd2c952"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/foroco/php-browser-detection/zipball/80d7bae823c150da82496b1bc94248febdd2c952",
+                "reference": "80d7bae823c150da82496b1bc94248febdd2c952",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/BrowserDetection.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Artem Murugov",
+                    "email": "murugov@gmail.com",
+                    "homepage": "https://github.com/foroco/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Ultra fast PHP library to detect browser, OS, platform and device type by User-Agent parsing",
+            "homepage": "https://github.com/foroco/php-browser-detection",
+            "keywords": [
+                "browser",
+                "detection",
+                "environment",
+                "php",
+                "user-agent",
+                "useragent"
+            ],
+            "support": {
+                "issues": "https://github.com/foroco/php-browser-detection/issues",
+                "source": "https://github.com/foroco/php-browser-detection/tree/v2.7"
+            },
+            "time": "2023-04-27T13:56:18+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
