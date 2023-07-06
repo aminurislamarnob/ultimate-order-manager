@@ -1,5 +1,5 @@
 {
-  "name": "aiarnob/ultimate-order-manager-for-woocommerce",
+  "name": "aiarnob/ultimate-order-manager",
   "description": "Add extra column on order list table. Add unlimited order status. Customer wise order list.",
   "license": "GPLv2 or later",
   "autoload": {

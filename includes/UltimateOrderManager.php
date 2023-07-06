@@ -83,14 +83,14 @@ final class UltimateOrderManager {
      * Nothing being called here yet.
      */
     public function activate() {
-        // Rewrite rules during ultimate_order_manager_for_woocommerce activation
+        // Rewrite rules during ultimate_order_manager activation
         if ( $this->has_woocommerce() ) {
             $this->flush_rewrite_rules();
         }
     }
 
     /**
-     * Flush rewrite rules after ultimate_order_manager_for_woocommerce is activated or woocommerce is activated
+     * Flush rewrite rules after ultimate_order_manager is activated or woocommerce is activated
      *
      * @since 3.2.8
      */
@@ -147,7 +147,7 @@ final class UltimateOrderManager {
         $this->includes();
         $this->init_hooks();
 
-        do_action( 'ultimate_order_manager_for_woocommerce_loaded' );
+        do_action( 'ultimate_order_manager_loaded' );
     }
 
     /**
@@ -186,7 +186,7 @@ final class UltimateOrderManager {
     /**
      * Executed after all plugins are loaded
      *
-     * At this point ultimate_order_manager_for_woocommerce Pro is loaded
+     * At this point ultimate_order_manager Pro is loaded
      *
      * @since 2.8.7
      *

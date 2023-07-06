@@ -29,9 +29,9 @@ require_once __DIR__ . '/vendor/autoload.php';
  *
  * @return \AiArnob\UltimateOrderManager\UltimateOrderManager;
  */
-function aiarnob_ultimate_order_manager_for_woocommerce() {
+function aiarnob_ultimate_order_manager() {
     return UltimateOrderManager::init();
 }
 
 // Lets Go....
-aiarnob_ultimate_order_manager_for_woocommerce();
+aiarnob_ultimate_order_manager();

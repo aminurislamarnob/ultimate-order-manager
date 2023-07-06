@@ -11,7 +11,6 @@ class OrderStatusManager {
         add_filter( 'wc_order_statuses', array( $this, 'uomwoo_add_custom_status_to_order_statuses' ) );
         add_filter( 'bulk_actions-edit-shop_order', array( $this, 'uomwoo_register_custom_status_bulk_action' ) );
         add_action( 'handle_bulk_actions-edit-shop_order', array( $this, 'uomwoo_bulk_process_custom_status' ), 20, 3 );
-        add_action( 'admin_notices', array( $this, 'uomwoo_custom_order_status_admin_notices' ) );
     }
 
     /**
@@ -41,16 +40,22 @@ class OrderStatusManager {
      * @return void
      */
     public function uomwoo_add_custom_order_status() {
-        register_post_status(
-            'wc-arrival-shipment', array(
-				'label'                     => 'Shipment Arrival',
-				'public'                    => true,
-				'show_in_admin_status_list' => true,
-				'show_in_admin_all_list'    => true,
-				'exclude_from_search'       => false,
-				'label_count'               => _n_noop( 'Shipment Arrival <span class="count">(%s)</span>', 'Shipment Arrival <span class="count">(%s)</span>' ),
-            )
-        );
+        $custom_status = self::uomwoo_get_custom_status();
+
+        foreach ( $custom_status as $status ) {
+            $encode_status = $status->option_value;
+            $status_array = ( json_decode( $encode_status ) );
+			register_post_status(
+                'wc-' . $status_array->uomwoo_status_slug, array(
+					'label'                     => $status_array->uomwoo_status_label,
+					'public'                    => true,
+					'show_in_admin_status_list' => true,
+					'show_in_admin_all_list'    => true,
+					'exclude_from_search'       => false,
+					'label_count'               => _n_noop( $status_array->uomwoo_status_label . ' <span class="count">(%s)</span>', $status_array->uomwoo_status_label . ' <span class="count">(%s)</span>' ),
+                )
+			);
+		}
     }
 
     /**
@@ -60,11 +65,16 @@ class OrderStatusManager {
      * @return void
      */
     public function uomwoo_add_custom_status_to_order_statuses( $order_statuses ) {
+        $custom_status = self::uomwoo_get_custom_status();
         $new_order_statuses = array();
         foreach ( $order_statuses as $key => $status ) {
             $new_order_statuses[ $key ] = $status;
             if ( 'wc-processing' === $key ) {
-                $new_order_statuses['wc-arrival-shipment'] = 'Shipment Arrival';
+                foreach ( $custom_status as $status ) {
+                    $encode_status = $status->option_value;
+                    $status_array = ( json_decode( $encode_status ) );
+					$new_order_statuses[ 'wc-' . $status_array->uomwoo_status_slug ] = $status_array->uomwoo_status_label;
+                }
             }
         }
         return $new_order_statuses;
@@ -77,7 +87,12 @@ class OrderStatusManager {
      * @return void
      */
     public function uomwoo_register_custom_status_bulk_action( $bulk_actions ) {
-        $bulk_actions['mark_shipment_arrival'] = 'Change status to shipment arrival';
+        $custom_status = self::uomwoo_get_custom_status();
+        foreach ( $custom_status as $status ) {
+            $encode_status = $status->option_value;
+            $status_array = ( json_decode( $encode_status ) );
+			$bulk_actions[ 'mark_' . $status_array->uomwoo_status_slug ] = 'Change status to ' . $status_array->uomwoo_status_label;
+        }
 	    return $bulk_actions;
     }
 
@@ -90,42 +105,27 @@ class OrderStatusManager {
      * @return void
      */
     public function uomwoo_bulk_process_custom_status( $redirect, $doaction, $object_ids ) {
-        if ( 'mark_shipment_arrival' === $doaction ) {
-            // change status of every selected order
-            foreach ( $object_ids as $order_id ) {
-                $order = wc_get_order( $order_id );
-                $order->update_status( 'wc-arrival-shipment' );
-            }
+        $custom_status = self::uomwoo_get_custom_status();
+        foreach ( $custom_status as $status ) {
+            $encode_status = $status->option_value;
+            $status_array = ( json_decode( $encode_status ) );
+			if ( 'mark_' . $status_array->uomwoo_status_slug === $doaction ) {
+				// change status of every selected order
+				foreach ( $object_ids as $order_id ) {
+					$order = wc_get_order( $order_id );
+					$order->update_status( 'wc-' . $status_array->uomwoo_status_slug );
+				}
 
-            // add query args to URL to show admin notices
-            $redirect = add_query_arg(
-                array(
-                    'bulk_action' => 'marked_shipment_arrival',
-                    'changed' => count( $object_ids ),
-                ),
-                $redirect
-            );
-        }
+				// add query args to URL to show admin notices
+				$redirect = add_query_arg(
+                    array(
+						'bulk_action' => 'marked_' . $status_array->uomwoo_status_slug,
+						'changed' => count( $object_ids ),
+                    ),
+                    $redirect
+				);
+			}
+		}
         return $redirect;
-    }
-
-    /**
-     * Order bulk status update admin notice
-     *
-     * @return void
-     */
-    public function uomwoo_custom_order_status_admin_notices() {
-        if ( isset( $_REQUEST['bulk_action'] )
-            && 'marked_shipment_arrival' === $_REQUEST['bulk_action']
-            && isset( $_REQUEST['changed'] )
-            && $_REQUEST['changed']
-        ) {
-
-            // displaying the message
-            printf(
-                '<div id="message" class="updated notice is-dismissible"><p>' . _n( '%d order status changed.', '%d order statuses changed.', $_REQUEST['changed'] ) . '</p></div>',
-                $_REQUEST['changed']
-            );
-        }
     }
 }

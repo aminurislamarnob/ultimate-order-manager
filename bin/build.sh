@@ -7,7 +7,7 @@ set -e
 cd "$(dirname "$0")"
 cd ..
 DIR=$(pwd)
-BUILD_DIR="$DIR/build/ultimate-order-manager-for-woocommerce"
+BUILD_DIR="$DIR/build/ultimate-order-manager"
 
 # Enable nicer messaging for build status.
 BLUE_BOLD='\033[1;34m'
@@ -43,7 +43,7 @@ status "Generating build... 👷‍♀️"
 
 # Copy all files
 status "Copying files... ✌️"
-FILES=(ultimate-order-manager-for-woocommerce.php readme.txt dist includes templates assets languages composer.json composer.lock)
+FILES=(ultimate-order-manager.php readme.txt dist includes templates assets languages composer.json composer.lock)
 
 for file in ${FILES[@]}; do
     if [ -f "$file" ] || [ -d "$file" ]; then
@@ -62,10 +62,10 @@ rm composer.json composer.lock
 # go one up, to the build dir
 status "Creating archive... 🎁"
 cd ..
-zip -r -q ultimate-order-manager-for-woocommerce.zip ultimate-order-manager-for-woocommerce
+zip -r -q ultimate-order-manager.zip ultimate-order-manager
 
 # remove the source directory
-rm -rf ultimate-order-manager-for-woocommerce
+rm -rf ultimate-order-manager
 
 success "Done. You've built Ultimate Order Manager For Woocommerce! 🎉 "
-echo -e "\n${BLUE_BOLD}File Path${COLOR_RESET}: ${YELLOW_BOLD}$(pwd)/ultimate-order-manager-for-woocommerce.zip${COLOR_RESET} \n"
+echo -e "\n${BLUE_BOLD}File Path${COLOR_RESET}: ${YELLOW_BOLD}$(pwd)/ultimate-order-manager.zip${COLOR_RESET} \n"

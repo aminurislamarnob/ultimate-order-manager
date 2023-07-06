@@ -37,8 +37,8 @@ class Assets {
         $admin_script       = UWOM_ORDER_MANAGER_PLUGIN_ASSET . '/admin/script.js';
         $frontend_script    = UWOM_ORDER_MANAGER_PLUGIN_ASSET . '/frontend/script.js';
 
-        wp_register_script( 'ultimate_order_manager_for_woocommerce_admin_script', $admin_script, [], filemtime( UWOM_ORDER_MANAGER_DIR . '/assets/admin/script.js' ), true );
-        wp_register_script( 'ultimate_order_manager_for_woocommerce_script', $frontend_script, [], filemtime( UWOM_ORDER_MANAGER_DIR . '/assets/frontend/script.js' ), true );
+        wp_register_script( 'ultimate_order_manager_admin_script', $admin_script, [], UWOM_ORDER_MANAGER_PLUGIN_VERSION, true );
+        wp_register_script( 'ultimate_order_manager_script', $frontend_script, [], UWOM_ORDER_MANAGER_PLUGIN_VERSION, true );
     }
 
     /**
@@ -48,10 +48,12 @@ class Assets {
      */
     public function register_styles() {
         $admin_style       = UWOM_ORDER_MANAGER_PLUGIN_ASSET . '/admin/style.css';
+        $admin_settings_style       = UWOM_ORDER_MANAGER_PLUGIN_ASSET . '/admin/admin-settings-style.css';
         $frontend_style    = UWOM_ORDER_MANAGER_PLUGIN_ASSET . '/frontend/style.css';
 
-        wp_register_style( 'ultimate_order_manager_for_woocommerce_admin_style', $admin_style, [], filemtime( UWOM_ORDER_MANAGER_DIR . '/assets/admin/style.css' ) );
-        wp_register_style( 'ultimate_order_manager_for_woocommerce_style', $frontend_style, [], filemtime( UWOM_ORDER_MANAGER_DIR . '/assets/frontend/style.css' ) );
+        wp_register_style( 'ultimate_order_manager_admin_style', $admin_style, [], UWOM_ORDER_MANAGER_PLUGIN_VERSION, 'all' );
+        wp_register_style( 'ultimate_order_manager_admin_settings_style', $admin_settings_style, [], UWOM_ORDER_MANAGER_PLUGIN_VERSION, 'all' );
+        wp_register_style( 'ultimate_order_manager_style', $frontend_style, [], UWOM_ORDER_MANAGER_PLUGIN_VERSION, 'all' );
     }
 
     /**
@@ -60,10 +62,8 @@ class Assets {
      * @return void
      */
     public function enqueue_admin_scripts() {
-        wp_enqueue_script( 'ultimate_order_manager_for_woocommerce_admin_script' );
-        wp_localize_script(
-            'ultimate_order_manager_for_woocommerce_admin_script', 'Ultimate_Order_Manager_Admin', []
-        );
+        wp_enqueue_script( 'ultimate_order_manager_admin_script' );
+        wp_localize_script( 'ultimate_order_manager_admin_script', 'Ultimate_Order_Manager_Admin', [] );
     }
 
     /**
@@ -72,9 +72,7 @@ class Assets {
      * @return void
      */
     public function enqueue_front_scripts() {
-        wp_enqueue_script( 'ultimate_order_manager_for_woocommerce_script' );
-        wp_localize_script(
-            'ultimate_order_manager_for_woocommerce_script', 'Ultimate_Order_Manager', []
-        );
+        wp_enqueue_script( 'ultimate_order_manager_script' );
+        wp_localize_script( 'ultimate_order_manager_script', 'Ultimate_Order_Manager', [] );
     }
 }
