@@ -67,9 +67,20 @@ span.switch-text.off {
     padding: 28px!important;
     border-radius: 5px;
 }
+.woocommerce table.form-table.p-0 {
+    padding: 0!important;
+    background: transparent;
+}
 
 .woocommerce table.form-table th {
     padding-left: 20px;
+}
+.form-table td.uomwoo_status_wrapper {
+    padding: 0;
+}
+
+td.uomwoo_status_wrapper table td, td.uomwoo_status_wrapper table th {
+    padding: 16px!important;
 }
 
 .woocommerce table.form-table label {

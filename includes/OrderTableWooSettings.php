@@ -77,37 +77,45 @@ class OrderTableWooSettings {
         ?>
         <h2>All Status <a href="<?php echo admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status=new' ); ?>" class="page-title-action">Add new status</a></h2>
         <p>List of all added status</p>
-        <table class="wp-list-table widefat fixed striped table-view-list">
-            <thead>
-                <tr>
-                    <th>Label</th>
-                    <th>Slug</th>
-                    <th>Color</th>
-                </tr>
-            </thead>
+        <table class="form-table p-0">
             <tbody>
-                <?php
-				foreach ( $added_status as $status ) {
-					$encode_status = $status->option_value;
-					$status_array = ( json_decode( $encode_status ) );
-                    // dd( $status_array );
-					?>
                 <tr valign="top">
-                    <td>
-                        <strong><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status_id=' . $status_array->uomwoo_status_id ) ); ?>"><?php echo esc_html__( $status_array->uomwoo_status_label, 'ultimate-order-manager' ); ?></a></strong>
-                        <div class="row-actions">
-                            <span class="edit">
-                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status_id=' . $status_array->uomwoo_status_id ) ); ?>" aria-label="Edit status">Edit</a> | 
-                            </span>
-                            <span class="trash">
-                                <a href="#" class="submitdelete" aria-label="Move “Officiis reiciendis” to the Trash">Trash</a>
-                            </span>
-                        </div>
+                    <td class="uomwoo_status_wrapper" colspan="2">
+                        <table class="wp-list-table widefat fixed striped table-view-list">
+                            <thead>
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Slug</th>
+                                    <th>Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ( $added_status as $status ) {
+                                    $encode_status = $status->option_value;
+                                    $status_array = ( json_decode( $encode_status ) );
+                                    // dd( $status_array );
+                                    ?>
+                                <tr valign="top">
+                                    <td>
+                                        <strong><a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status_id=' . $status_array->uomwoo_status_id ) ); ?>"><?php echo esc_html__( $status_array->uomwoo_status_label, 'ultimate-order-manager' ); ?></a></strong>
+                                        <div class="row-actions">
+                                            <span class="edit">
+                                                <a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager&status_id=' . $status_array->uomwoo_status_id ) ); ?>" aria-label="Edit status">Edit</a> | 
+                                            </span>
+                                            <span class="trash">
+                                                <a href="#" class="submitdelete" aria-label="Move “Officiis reiciendis” to the Trash">Trash</a>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="forminp forminp-text"><?php echo esc_html( $status_array->uomwoo_status_slug ); ?></td>
+                                    <td class="forminp forminp-text"><?php echo esc_html( $status_array->uomwoo_status_color ); ?></td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
                     </td>
-                    <td class="forminp forminp-text"><?php echo esc_html( $status_array->uomwoo_status_slug ); ?></td>
-                    <td class="forminp forminp-text"><?php echo esc_html( $status_array->uomwoo_status_color ); ?></td>
                 </tr>
-                <?php } ?>
             </tbody>
         </table>
         <?php
@@ -166,14 +174,15 @@ class OrderTableWooSettings {
         $status = OrderStatusManager::uomwoo_get_custom_status_by_id( $status_id );
         $encode_status = $status->option_value;
         $status_array = ( json_decode( $encode_status ) );
-
+        ?>
+        <h2><?php echo esc_html__( 'Update Status', 'woocommerce' ); ?> <?php wc_back_link( __( 'Return to status list', 'woocommerce' ), admin_url( 'admin.php?page=wc-settings&tab=uomwoo-settings&section=status_manager' ) ); ?></h2>
+        <p><?php echo esc_html__( 'Update custom status for you store.', 'ultimate-order-manager' ); ?></p>
+        <?php
         $settings = array(
-            'section_title' => array(
-                'name'     => __( 'Update Status', 'ultimate-order-manager' ),
-                'type'     => 'title',
-                'desc'     => __( 'Update custom status for you store.', 'ultimate-order-manager' ),
-                'id'       => 'uomwoo_status_settings_section_title',
-                'class' => 'uomwoo-section-title',
+            'section_start' => array(
+                'title' => '',
+				'type'  => 'title',
+				'id'    => 'uomwoo_status_section_start',
             ),
             'uomwoo_status_label' => array(
                 'title'    => __( 'Status Label (required)', 'ultimate-order-manager' ),
