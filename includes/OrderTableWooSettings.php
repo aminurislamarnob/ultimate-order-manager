@@ -87,6 +87,7 @@ class OrderTableWooSettings {
                                     <th>Label</th>
                                     <th>Slug</th>
                                     <th>Color</th>
+                                    <th>Position (after)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,6 +111,7 @@ class OrderTableWooSettings {
                                     </td>
                                     <td class="forminp forminp-text"><?php echo esc_html( $status_array->uomwoo_status_slug ); ?></td>
                                     <td class="forminp forminp-text"><?php echo esc_html( $status_array->uomwoo_status_color ); ?></td>
+                                    <td class="forminp forminp-text">after processing</td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
