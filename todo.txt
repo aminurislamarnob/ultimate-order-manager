@@ -1,0 +1,6 @@
+# Delete status (with confirm modal)
+# Status color dynamic
+# Position or order dropdown on add/edit status
+# Arrow back icon on add status page beside title
+# Order count for each on product table
+# Product wise customer list
