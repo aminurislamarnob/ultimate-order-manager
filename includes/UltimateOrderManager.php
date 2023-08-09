@@ -224,14 +224,14 @@ final class UltimateOrderManager {
      *
      * @return void
      */
-    public function create_uom_wc_status_table(){
+    public function create_uom_wc_status_table() {
         global $wpdb;
 
 		$collate = '';
 
-		if ( $wpdb->has_cap( 'collation' ) ) {
-			$collate = $wpdb->get_charset_collate();
-		}
+		// if ( $wpdb->has_cap( 'collation' ) ) {
+        // }
+        $collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE {$wpdb->prefix}uom_wc_status (
             id bigint(20) unsigned NOT NULL auto_increment,
@@ -241,10 +241,10 @@ final class UltimateOrderManager {
             bg_color varchar(20) NOT NULL,
             text_color varchar(20) NOT NULL,
             show_after varchar(20) NOT NULL,
-            PRIMARY KEY  (id),
+            PRIMARY KEY  (id)
           ) $collate;";
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         dbDelta( $sql );
     }
 }
