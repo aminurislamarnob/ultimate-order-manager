@@ -1,3 +1,11 @@
+/*Common Design*/
+.umo-error-notice h2 {
+    margin-bottom: 10px;
+}
+.umo-error-notice p {
+    margin-bottom: 1em;
+} 
+
 /*Order Table Columns*/
 th#uomwoo_order_items {
     width: 200px;

@@ -46,6 +46,7 @@ final class UltimateOrderManager {
 
         add_action( 'plugins_loaded', [ $this, 'init_plugin' ] );
         add_action( 'woocommerce_flush_rewrite_rules', [ $this, 'flush_rewrite_rules' ] );
+        add_action( 'ultimate_order_manager_loaded', [ $this, 'check_plugin_dependency' ] );
     }
 
     /**
@@ -83,11 +84,7 @@ final class UltimateOrderManager {
      * Nothing being called here yet.
      */
     public function activate() {
-        // Rewrite rules during ultimate_order_manager activation
-        if ( $this->has_woocommerce() ) {
-            // $this->flush_rewrite_rules();
-            $this->create_uom_wc_status_table(); //create plugin required table on plugin activation
-        }
+        $this->create_uom_wc_status_table(); //create plugin required table on plugin activation
     }
 
     /**
@@ -194,7 +191,14 @@ final class UltimateOrderManager {
      * @return void
      */
     public function after_plugins_loaded() {
-        // Initiate background processes and other tasks
+        //Executed after all plugins are loaded
+    }
+
+    public function check_plugin_dependency() {
+		// check dependency
+		if ( ! $this->is_woocommerce_installed() ) {
+			add_action( 'admin_notices', [ $this, 'umo_woo_dependency_notice' ] );
+		}
     }
 
     /**
@@ -216,7 +220,21 @@ final class UltimateOrderManager {
      * @return bool
      */
     public function is_woocommerce_installed() {
-        return in_array( 'woocommerce/woocommerce.php', array_keys( get_plugins() ), true );
+        $filter_active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
+		return in_array( 'woocommerce/woocommerce.php', $filter_active_plugins, true );
+    }
+
+    /**
+     * Plugin dependency notice
+     *
+     * @return void
+     */
+    public function umo_woo_dependency_notice() {
+        $class = 'notice notice-error umo-error-notice';
+        $title = __( 'Ultimate Order Manager For Woocommerce is almost ready.', 'ultimate-order-manager' );
+        $message = __( 'You just need to active the WooCommerce plugin to make it functional.', 'ultimate-order-manager' );
+
+        printf( '<div class="%1$s"><h2>%2$s</h2><p>%3$s</p></div>', esc_attr( $class ), esc_html( $title ), esc_html( $message ) );
     }
 
     /**
@@ -229,9 +247,9 @@ final class UltimateOrderManager {
 
 		$collate = '';
 
-		// if ( $wpdb->has_cap( 'collation' ) ) {
-        // }
-        $collate = $wpdb->get_charset_collate();
+		if ( $wpdb->has_cap( 'collation' ) ) {
+            $collate = $wpdb->get_charset_collate();
+        }
 
         $sql = "CREATE TABLE {$wpdb->prefix}uom_wc_status (
             id bigint(20) unsigned NOT NULL auto_increment,
