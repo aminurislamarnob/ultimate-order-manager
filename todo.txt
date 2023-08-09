@@ -4,4 +4,7 @@
 # Arrow back icon on add status page beside title
 # Order count for each on product table
 # Product wise customer list
-# Need to follow: https://woocommerce.com/products/woocommerce-order-status-manager/
+# Need to follow: 
+https://woocommerce.com/products/woocommerce-order-status-manager/
+https://woocommerce.com/products/custom-order-status/
+

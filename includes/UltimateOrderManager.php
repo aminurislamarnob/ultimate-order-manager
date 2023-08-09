@@ -85,7 +85,8 @@ final class UltimateOrderManager {
     public function activate() {
         // Rewrite rules during ultimate_order_manager activation
         if ( $this->has_woocommerce() ) {
-            $this->flush_rewrite_rules();
+            // $this->flush_rewrite_rules();
+            $this->create_uom_wc_status_table(); //create plugin required table on plugin activation
         }
     }
 
@@ -216,5 +217,34 @@ final class UltimateOrderManager {
      */
     public function is_woocommerce_installed() {
         return in_array( 'woocommerce/woocommerce.php', array_keys( get_plugins() ), true );
+    }
+
+    /**
+     * Custom status table
+     *
+     * @return void
+     */
+    public function create_uom_wc_status_table(){
+        global $wpdb;
+
+		$collate = '';
+
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			$collate = $wpdb->get_charset_collate();
+		}
+
+        $sql = "CREATE TABLE {$wpdb->prefix}uom_wc_status (
+            id bigint(20) unsigned NOT NULL auto_increment,
+            name varchar(200) NOT NULL,
+            slug varchar(200) NOT NULL,
+            description text NOT NULL,
+            bg_color varchar(20) NOT NULL,
+            text_color varchar(20) NOT NULL,
+            show_after varchar(20) NOT NULL,
+            PRIMARY KEY  (id),
+          ) $collate;";
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta( $sql );
     }
 }
